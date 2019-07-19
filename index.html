@@ -4,28 +4,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Twibbon 2019</title>
-
-    <script src="index.js"></script>
 </head>
 <body>
-    <form enctype="multipart/form-data" novalidate>
-        <div class="dropbox">
-            <input id="file1" type="file" name="uploadFieldName" onchange="previewFile()" accept="image/*">
-            <p>
-                Klik 'Browse' untuk mengupload foto.<br>
-                Apabila foto anda tidak muncul, upload sekali lagi.
-            </p>
-        </div>
-    </form>
+    <input type='file' id="fileUpload" />
+    <canvas id="canvas" width="1080" height="1080"></canvas>
+    <img src="" id="mirror" class="canvas__mirror" />
+    <script>
+    function el(id) {
+  return document.getElementById(id);
+} // Get elem by ID
 
-    <img id="img1" width="1350px" height="1350px" src="twibbon.png" style="display:none">
-    <br/>
-    <img id="img2" width="1350px" height="1350px" src="" style="display:none">
-    <br/>
-    <img id="hasil" width="50%">
-    <br/>
-    <canvas id="canvas" style="display:none"></canvas>
+function wait(ms) {
+  var start = new Date().getTime();
+  var end = start;
+  while (end < start + ms) {
+    end = new Date().getTime();
+  }
+}
 
-    <p>NB: Download dapat dilakukan dengan melakukan klik kanan pada gambar kemudian klik 'save'.</p>
+var canvas = el("canvas");
+var context = canvas.getContext("2d");
+
+function readImage() {
+  if (this.files && this.files[0]) {
+    var FR = new FileReader();
+    FR.onload = function(e) {
+      var img = new Image();
+      img.addEventListener("load", function() {
+        context.drawImage(img, 0, 0, 1080, 1080);
+      });
+      img.src = e.target.result;
+      var twibbon = new Image();
+      twibbon.addEventListener("load", function() {
+        context.drawImage(twibbon, 0, 0, 1080, 1080);
+      });
+      twibbon.src = "http://fti.uajy.ac.id/inisiasi/wp-content/uploads/2018/06/twibbon.png";
+    };
+    FR.readAsDataURL(this.files[0]);
+
+    var imageData = context.getImageData(0, 0, 1080, 1080);
+
+    var Pic = canvas.toDataURL("image/png");
+    console.log(Pic);
+  }
+}
+
+el("fileUpload").addEventListener("change", readImage, false);
+
+    </script>  
 </body>
 </html>
