@@ -4,13 +4,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Twibbon 2019</title>
+
+    <script src="index.js"></script>
 </head>
 <body>
     <form enctype="multipart/form-data" novalidate>
         <div class="dropbox">
             <input id="file1" type="file" name="uploadFieldName" onchange="previewFile()" accept="image/*">
             <p>
-                Klik atau letakkan foto untuk mengupload foto
+                Klik 'Browse' untuk mengupload foto.<br>
+                Apabila foto anda tidak muncul, upload sekali lagi.
             </p>
         </div>
     </form>
@@ -22,43 +25,5 @@
     <img id="hasil" width="50%">
     <br/>
     <canvas id="canvas" style="display:none"></canvas>
-    <br/>
-    <a id="download3" download="twibbon.png"><button class="btn">Download</button></a>
-
-    <script>
-        function previewFile() {
-
-            // ---- Inputing uploaded file to src
-            var pic = document.getElementById('img2');
-            var file    = document.querySelector('input[type=file]').files[0];
-            var reader  = new FileReader();
-
-            reader.onloadend = function () {
-                pic.src = reader.result;
-            }
-
-            if (file) {
-                reader.readAsDataURL(file);
-            } else {
-                pic.src = "";
-            }
-            // --------------------------------
-            
-            var twibbon = new Image();
-            var picture = new Image();
-            var twibbon = document.getElementById('img1');
-            var picture = document.getElementById('img2');
-            var canvas = document.getElementById('canvas');
-            var context = canvas.getContext('2d');
-
-            canvas.width = twibbon.width;
-            canvas.height = twibbon.height;
-            context.drawImage(picture, 0, 0, canvas.width, canvas.height);
-            context.drawImage(twibbon, 0, 0);
-
-            var hasil = canvas.toDataURL("image/png");
-            document.getElementById('hasil').src = hasil;
-        }
-    </script>
 </body>
 </html>
